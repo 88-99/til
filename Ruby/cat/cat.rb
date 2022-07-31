@@ -12,6 +12,8 @@ end
 
 filename = ARGV.first # 引数menu.txtを配列で渡す
 cat(filename)
+# cat % ruby cat.rb menu.txt
+# cat % ruby cat.rb notfound.txt
 
 # filename = ARGV.last  # 試しにfirstからlastに変更して
 # cat % ruby cat.rb notfound.txt menu.txt  引数を2つにする
