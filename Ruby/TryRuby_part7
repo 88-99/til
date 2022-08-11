@@ -1,0 +1,57 @@
+class Blurb
+  attr_accessor :content, :time, :mood  # クラスBlurbの外からでも指定のインスタンス変数にアクセスできるようにするメソッド。
+
+  def initialize(mood, content="")  # ①により起動。
+    @time    = Time.now
+    @content = content[0..39]
+    @mood    = mood
+  end
+
+  def moodify
+    if    @mood == :sad
+      return ":-(s" # 気分がsadならreturnを返す
+    elsif @mood == :happy
+      return ":-)h"
+    # Add other moods here
+    elsif @mood == :confused
+      return "confused"
+    end
+
+    # The default mood
+    ":-|"   # 上記以外の場合のデフォルト
+  end
+end
+
+class Blurbalizer
+  def initialize(title)
+    @title  = title
+    @blurbs = []  # 空の配列を定義
+  end
+
+  def add_a_blurb(mood, content)
+    @blurbs << Blurb.new(mood, content) # Blurbクラスのオブジェクトを作成して、引数mood, contentを配列(@blurbs)の最後に追加。Blurbクラスのinitializeメソッドが起動する。・・①
+  end
+
+  def show_timeline
+    puts "Blurbalizer: #{@title} has #{@blurbs.count} Blurbs"
+    puts "Blurb: #{Blurb2.moodify}", "#{Blurb2.content}" # この一行を追記
+
+    @blurbs.sort_by { |t|  # 昇順に並び替え
+      t.time
+    }.reverse.each { |t|  # 逆順に並び替え(降順)
+      puts "#{t.content.ljust(40)} #{t.time}"  # 40文字分の幅で左寄せしたcontentと時間を表示。
+    }
+  end
+end
+
+myapp = Blurbalizer.new "The Big Blurb"  # "The Big Blurb"を引数としてinitialize(title)に渡す。そしてmyappに代入。ここが出発点。
+myapp.add_a_blurb :moody, "ここにBlurbを追加します"  # 上の行で代入したmyappに対して、add_a_blurbメソッドを呼び出す。
+Blurb2 = Blurb.new :confused, "I can not believe Mt. Hood was stolen!"
+myapp.show_timeline
+
+% ruby sample.rb
+Blurbalizer: The Big Blurb has 1 Blurbs
+Blurb: confused
+I can not believe Mt. Hood was stolen!
+ここにBlurbを追加します                           2022-08-12 02:51:33 +0900
+%
