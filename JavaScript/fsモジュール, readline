@@ -1,0 +1,45 @@
+#!/usr/bin/env node
+
+import * as fs from "node:fs/promises";
+import { createInterface } from "readline";
+
+const lines = [];
+const reader = createInterface({
+  input: process.stdin,
+});
+
+reader.on("line", (line) => {
+  fs.writeFile("test.txt", `${line}`).catch((err) => {
+    console.error(err);
+  });
+});
+
+// reader.on("close", () => {
+//   console.log(lines);
+// });
+
+// fs.readFile("test.txt", { encoding: "utf8" })
+//   .then((file) => {
+//     console.log(file);
+//   })
+//   .catch((err) => {
+//     console.error(err);
+//   });
+// fs.readFile("test.txt", "utf8", function (error, data) {
+//   console.log(data);
+// });
+
+// fs.writeFile("test.txt", "サンプルの文字列").catch((err) => {
+//   console.error(err);
+// });
+// fs.writeFile("test.txt", "サンプルの文字列", function (err) {});
+
+// fs.appendFile("test.txt", "追記したい文字列など").catch((err) => {
+//   console.error(err);
+// });
+// fs.appendFile("test.txt", "追記したい文字列など", function (err) {});
+
+// fs.unlink("testt.txt").catch((err) => {
+//   console.error(err);
+// });
+// fs.unlink("test.txt", function (err) {});
