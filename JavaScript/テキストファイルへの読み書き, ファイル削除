@@ -1,0 +1,36 @@
+// fsモジュールのpromisesオブジェクトをfsとして呼び出す
+import * as fs from "node:fs/promises";
+
+// 読み込み
+fs.readFile("test.txt", { encoding: "utf8" })
+  .then((file) => {
+    console.log(file);
+  })
+  .catch((err) => {
+    console.error(err);
+  });
+
+fs.readFile("test.txt", "utf8", function (error, data) {
+  console.log(data);
+});
+
+// 書き込み(ファイルがなければ作られる)
+fs.writeFile("test.txt", "サンプルの文字列").catch((err) => {
+  console.error(err);
+});
+
+fs.writeFile("test.txt", "サンプルの文字列", function (err) {});
+
+// 末尾に追加書き込み
+fs.appendFile("test.txt", "追記したい文字列など").catch((err) => {
+  console.error(err);
+});
+
+fs.appendFile("test.txt", "追記したい文字列など", function (err) {});
+
+// test.txtを削除
+fs.unlink("test.txt").catch((err) => {
+  console.error(err);
+});
+
+fs.unlink("test.txt", function (err) {});
