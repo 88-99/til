@@ -1,0 +1,31 @@
+import { createInterface } from "readline";
+import { writeFile } from "node:fs/promises"; // fs.としなくてよくなる
+
+const rl = createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+const lines = [];
+
+rl.on("line", (line) => {
+  lines.push(line);
+});
+
+rl.on("close", async () => {
+  try {
+// test.txtがなければ作成して保存される
+    await writeFile("test.txt", lines.join("\n"));
+    console.log("ファイルの保存が完了しました");
+  } catch (err) {
+    console.error("ファイルの保存中にエラーが発生しました:", err);
+  }
+});
+
+
+
+$ sample.js
+aaa  ・・　改行ごとにEnter
+bbb
+ccc  ・・　Enter　-> control + c
+ファイルの保存が完了しました
