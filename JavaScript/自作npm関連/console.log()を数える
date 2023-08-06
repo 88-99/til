@@ -1,0 +1,35 @@
+#!/usr/bin/env node
+
+function output() {
+  console.log("aaa", "ddd"); // 1行目
+  console.log("bbb"); // 2行目
+  console.log("ccc"); // 3行目
+}
+
+function countLines(fn) {
+  const oldConsoleLog = console.log; // 元々のconsole.logを退避
+  let lineCount = 0;
+
+  // カスタムのconsole.logを定義して、行数をカウントする。新しいconsole.logをアロー関数で定義し直し。
+  // ...argsにはconosole.log();を使ったときの引数が入る。
+  console.log = (...args) => {
+    lineCount++; // console.logの行を数える
+    oldConsoleLog(...args); // 元々のconsole.log
+  };
+
+  fn(); // countLines(fn);の引数として渡された関数output();を実行()
+
+  // カウントした行数を返す
+  return lineCount;
+}
+
+const lineCount = countLines(output);
+console.log(`行数: ${lineCount}`);
+
+
+
+$ sample.js
+aaa ddd
+bbb
+ccc
+行数: 3
