@@ -1,0 +1,67 @@
+40桁を1行単位で表示する
+
+1 〜 40 桁
+3 行 (上下に空行が入る)
+
+41 〜 80 桁 (空行, 数字列, 空行, 点線, 空行, 数字列, 空行)
+7 行 ・・ 以降 4 ずつ増えていく
+
+81 〜 120 桁
+11 行
+
+121 〜 160 桁
+15 行
+
+
+
+const digits = 200; // 桁
+
+let deleteLine = 3; // 消したい行数
+
+// 任意の桁数(digits)に応じて消したい行数を求める
+// イメージ
+function getDleteLine(digits) {
+  if (digits <= 40) {
+    return deleteLine; // step0
+
+    // 41 〜 80
+  } else if (40 * 1 < digits && digits <= 40 * 2) {
+    return deleteLine + 4 * 1; // step1
+    
+    // 81 〜 120
+  } else if (40 * 2 < digits && digits <= 40 * 3) {
+    return deleteLine + 4 * 2; // step2
+
+    // 121 〜 160
+  } else if (40 * 3 < digits && digits <= 40 * 4) {
+    return deleteLine + 4 * 3; // step3
+  } // 以降も同じように増えていく
+}
+
+
+
+// 任意の桁数に応じた出力行数を求める
+function getDleteLine(digits, deleteLine) {
+  // 桁数40で割ったものを繰り上げて -1 すると、
+  // digitsがどの範囲(step)内に当てはまるのかを求めることができる。
+  // Math.ceil()は引数として与えた数以上の最小の整数を返す。
+  const step = Math.ceil(digits / 40) - 1;
+  return deleteLine + 4 * step;
+}
+
+function clearTerminalAfterDelay(
+  digits,
+  randomNumbers,
+  milliseconds,
+  callback
+) {
+  outputForm(randomNumbers); // 出力する
+
+  let deleteLine = 3;
+  deleteLine = getDleteLine(digits, deleteLine);
+
+  setTimeout(() => {
+    process.stdout.write(`\x1b[${deleteLine}A\x1b[0J`); // 出力した行数を消す
+    callback();
+  }, milliseconds);
+}
